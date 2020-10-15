@@ -95,7 +95,6 @@ class Ui_NewUser(object):
         self.l_newuser.setText(_translate("NewUser", "New User"))
         self.txt_firstname.setPlaceholderText(_translate("NewUser", "Enter your First Name"))
         self.txt_lastname.setPlaceholderText(_translate("NewUser", "Enter your Last Name"))
-        self.txt_phone.setPlaceholderText(_translate("NewUser", "Enter your Phone Number "))
         self.txt_email.setPlaceholderText(_translate("NewUser", "Enter your Email Address "))
         self.txt_username.setPlaceholderText(_translate("NewUser", "Enter Username"))
         self.lineEdit.setPlaceholderText(_translate("NewUser", "Enter Password"))
