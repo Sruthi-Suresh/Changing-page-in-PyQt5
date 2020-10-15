@@ -210,8 +210,8 @@ class Ui_NewUser(object):
         self.l_newuser.setText(_translate("NewUser", "New User"))
         self.txt_firstname.setPlaceholderText(_translate("NewUser", "Enter your First Name"))
         self.txt_lastname.setPlaceholderText(_translate("NewUser", "Enter your Last Name"))
-        self.txt_phone.setPlaceholderText(_translate("NewUser", "Enter your Phone Number "))
-        self.txt_email.setPlaceholderText(_translate("NewUser", "Enter your Email Address "))
+        self.txt_phone.setPlaceholderText(_translate("NewUser", "Enter your Email Address "))
+        self.txt_email.setPlaceholderText(_translate("NewUser", "Confirm Email Address "))
         self.txt_username.setPlaceholderText(_translate("NewUser", "Enter Username"))
         self.lineEdit.setPlaceholderText(_translate("NewUser", "Enter Password"))
         self.btn_submit.setText(_translate("NewUser", "Submit"))
@@ -295,14 +295,12 @@ class Newuser(QtWidgets.QWidget, Ui_NewUser):
 
         txt_firstname_v = self.txt_firstname.text()
         txt_lastname_v = self.txt_lastname.text()
-        txt_phone_v = self.txt_phone.text()
         txt_emailid_v = self.txt_email.text()
         txt_username_v =self.txt_username.text()
         txt_password_v =self.lineEdit.text()
 
-        if (len(txt_firstname_v) <= 1
-                and len(txt_lastname_v) <= 1 and
-        len(txt_phone_v) <= 9  and
+        if (len(txt_firstname_v) <= 1 and 
+        len(txt_lastname_v) <= 1 and
         len(txt_emailid_v) <= 1  and
         len(txt_username_v) <= 1  and
         len(txt_password_v) <=1):
@@ -314,30 +312,20 @@ class Newuser(QtWidgets.QWidget, Ui_NewUser):
 
         else:
 
-            conn=sqlite3.connect('Data.db')
+            conn=sqlite3.connect('AlzheimerData.db')
             cursor = conn.cursor()
 
             cursor.execute("""
                     CREATE TABLE IF NOT EXISTS credentials 
                     (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                    fname TEXT, 
-                    lname TEXT, 
-                    Phone TEXT, 
-                    email TEXT,
-                    username TEXT, 
-                    password TEXT)""")
+                    fname TEXT NOT NULL, 
+                    lname TEXT,  
+                    email TEXT NOT NULL,
+                    username TEXT NOT NULL UNIQUE, 
+                    password TEXT NOT NULL UNIQUE)""")
 
-            cursor.execute(""" INSERT INTO credentials 
-                    (fname,
-                    lname,
-                    Phone,
-                    email,
-                    username, 
-                    password)
-                    
-                VALUES 
-                (?,?,?,?,?,?)
-                """,(txt_firstname_v, txt_lastname_v, txt_phone_v, txt_emailid_v,txt_username_v,txt_password_v))
+            cursor.execute(""" INSERT INTO credentials (fname,lname,email,username, password) VALUES (?,?,?,?,?)
+                """,(txt_firstname_v, txt_lastname_v,txt_emailid_v,txt_username_v,txt_password_v))
 
             conn.commit()
             cursor.close()
